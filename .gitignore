@@ -5,3 +5,5 @@ incomes/migrations/0003_alter_income_options_alter_income_end_age_and_more.py
 incomes/migrations/__pycache__/0002_income_created_at_income_update_at.cpython-310.pyc
 incomes/migrations/__pycache__/0001_initial.cpython-310.pyc
 incomes/migrations/__pycache__/0003_alter_income_options_alter_income_end_age_and_more.cpython-310.pyc
+kashkoo/settings.py
+kashkoo/__pycache__/settings.cpython-310.pyc

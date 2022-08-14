@@ -3,7 +3,7 @@
    {% if incomes %}
    <div class="m-b-5">
       <button class="btn btn-primary" hx-trigger="click"  hx-get="{% url 'incomes-table' %}" hx-target="#incomes-card" hx-swap="innerHTML" hx-indicator=".progress-idc">Incomes table</button>
-      <button class="btn btn-outline-primary border-0" hx-trigger="click"  hx-get="{% url 'income-chart' %}" hx-target="#incomes-card" hx-swap="innerHTML" hx-indicator=".progress-idc">Incomes chart</button>
+      {% if incomes|length > 1 %}<button class="btn btn-outline-primary border-0" hx-trigger="click"  hx-get="{% url 'income-chart' %}" hx-target="#incomes-card" hx-swap="innerHTML" hx-indicator=".progress-idc">Incomes chart</button>{% endif %}
    </div>
    <div id="incomes_table" >
       <div class="table-responsive">
