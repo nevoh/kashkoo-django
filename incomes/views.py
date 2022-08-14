@@ -128,11 +128,9 @@ def get_total_income_chart_values():
         single_income_values = []
         year = 1
         growth_multiplyer = 1
-        print(total_income_values)
-        print(growth_multiplyer)
 
     # return a sum of all the single income lists to get a total income list
-    return [x + y for (x, y) in zip(*total_income_values)] 
+    return [sum(x) for x in zip(*total_income_values)] 
 
 def income_chart(request):
     pk = request.GET.get('pk')
