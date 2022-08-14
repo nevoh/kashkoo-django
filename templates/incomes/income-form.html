@@ -55,8 +55,8 @@
                       <span class="input-group-text">$</span>
                   </div>
                   {% render_field form.growth class="form-control"  min="0" oninput="this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value) : null"%}
+                  <div class="invalid-feedback">{{ form.growth.errors|first }}</div>
                </div>
-               <div class="invalid-feedback">{{ form.growth.errors|first }}</div>
             </div>
             
          </div>

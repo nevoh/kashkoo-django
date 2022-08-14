@@ -13,6 +13,7 @@ class IncomeForm(forms.ModelForm):
         cleaned_data = super().clean()
         st = cleaned_data['start_age']
         end = cleaned_data['end_age']
+        growth = cleaned_data['growth']
         if not st and not end:
             raise forms.ValidationError({
                 'start_age':'Please select either a starting or ending age.',
@@ -24,5 +25,10 @@ class IncomeForm(forms.ModelForm):
                 'start_age':'The start age must be less than the end age.',
                 'end_age':'The start age must be less than the end age.'
                 })
+        if st == 65 and growth:
+            raise forms.ValidationError({
+                'growth':'The start age must be less than 65 for you to add growth',
+                })
+
         return cleaned_data
 

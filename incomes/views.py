@@ -65,7 +65,10 @@ def get_growth_rate(a, p, t):
     the number of years
     """
     # simple interest formula --> A = P(1 + rt)
+
+    
     r = (a - p) / (p*t)
+
     return r
 
 def get_single_income_chart_values(pk):
@@ -79,7 +82,8 @@ def get_single_income_chart_values(pk):
     growth_multiplyer = 1 # annual multiplyer factor for incomes with growth
     
     income = Income.objects.get(pk=pk)
-    rate = get_growth_rate(income.growth, income.annual_amount, 65 - (income.start_age or 40))
+    if income.growth:
+        rate = get_growth_rate(income.growth, income.annual_amount, 65 - (income.start_age or 40))
     for i in range(40, 101): # selected range is because age is assumed from 40 to 100
         if i <= (income.end_age or 100) and i >= (income.start_age or 40):
             # append the income amount only if age iteration is between
@@ -109,7 +113,8 @@ def get_total_income_chart_values():
     growth_multiplyer = 1 # annual multiplyer factor for incomes with growth
     
     for income in Income.objects.all():
-        rate = get_growth_rate(income.growth or 0, income.annual_amount, 65 - (income.start_age or 40))
+        if income.growth:
+            rate = get_growth_rate(income.growth or 0, income.annual_amount, 65 - (income.start_age or 40))
         for i in range(40, 101): # selected range is because age is assumed from 40 to 100
             if i <= (income.end_age or 100) and i >= (income.start_age or 40):
                 # append the income amount only if age iteration is between
