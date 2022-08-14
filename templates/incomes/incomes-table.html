@@ -1,0 +1,65 @@
+{% load static %}
+<div hx-trigger="incomesListChanged from:body" hx-get="{% url 'incomes-table' %}" hx-target="#incomes-card">
+   {% if incomes %}
+   <div class="m-b-5">
+      <button class="btn btn-primary" hx-trigger="click"  hx-get="{% url 'incomes-table' %}" hx-target="#incomes-card" hx-swap="innerHTML" hx-indicator=".progress-idc">Incomes table</button>
+      <button class="btn btn-outline-primary border-0" hx-trigger="click"  hx-get="{% url 'income-chart' %}" hx-target="#incomes-card" hx-swap="innerHTML" hx-indicator=".progress-idc">Incomes chart</button>
+   </div>
+   <div id="incomes_table" >
+      <div class="table-responsive">
+         <table id="zero_config" class="table table-striped table-bordered">
+            <thead>
+               <tr>
+                  <th>Description</th>
+                  <th>($) Annual amount</th>
+                  <th>Start age</th>
+                  <th>End age</th>
+                  <th>($) Growth</th>
+                  <th>Actions</th>
+               </tr>
+            </thead>
+            <tbody>
+               {% for income in incomes %}
+               <tr>
+                  <td>
+                     <a href="" hx-trigger="click" hx-get="{% url 'income-chart' %}?pk={{income.id}}&title={{income.description}}" hx-target="#incomes-card" hx-swap="innerHTML" hx-indicator=".progress-idc">
+                     {{income.description}}
+                     </a>
+                  </td>
+                  <td>{{income.annual_amount}}</td>
+                  <td>{{income.start_age|default:""}}</td>
+                  <td>{{income.end_age|default:""}}</td>
+                  <td>{{income.growth|default:""}}</td>
+                  <td>
+                     <i class="fas fa-edit" style="color:#3cd63a; cursor: pointer; padding-right: 5px;" title="Update Income" hx-get="{% url 'update-income' income.id %}" hx-target="#income-form-dialog"></i>
+                     <i class="fas fa-trash" style="color:red; cursor: pointer;" title="Delete Income" hx-delete="{% url 'delete-income' income.id %}" hx-confirm="Are you sure you want to delete this income?"></i>
+                  </td>
+               </tr>
+               {% endfor %}
+            </tbody>
+            <tfoot>
+               <tr>
+                  <th>Description</th>
+                  <th>($) Annual amount</th>
+                  <th>Start age</th>
+                  <th>End age</th>
+                  <th>($) Growth</th>
+                  <th>Actions</th>
+               </tr>
+            </tfoot>
+         </table>
+      </div>
+   </div>
+   {% else %}
+   <h4> Your incomes list is empty. Try adding some</h4>
+   {% endif %}
+</div>
+{% block sitejs %}
+<script>
+   $('#zero_config').DataTable(     
+      {
+          "ordering":false,
+      }    
+   );
+</script>
+{% endblock sitejs %}

@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block sitecss %}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<style>
+   th{
+   background: #e1e4e8;
+   }
+   tr:hover{
+   background: #e1e4e8;
+   }
+   .break {
+   white-space: nowrap;
+   }
+   .word-wrap{
+   overflow-wrap: break-word;
+   }
+   th{
+   background: #e1e4e8;
+   }
+   tr:hover{
+   background: #e1e4e8;
+   }
+</style>
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/progress-indicator.css' %}">
+{% endblock sitecss %}
+{% block title %} Kashkoo{% endblock title %}
+{% block page_name %} 
+{% endblock page_name %}
+{% block content %}
+<!-- Add income button -->
+<div class="modal-btn">
+   <button type="button" class="btn btn-primary" hx-get="{% url 'add-income' %}" hx-target="#income-form-dialog" style="border-radius:20px;">
+   <i class="fas fa-user-plus"></i> Add Income
+   </button>
+   <br><br>
+</div>
+<!-- Add income Modal -->
+<div class="modal fade come-from-modal right" id="incomeFormPopup" tabindex="-1" aria-labelledby="incomeFormModalLabel" aria-hidden="true">
+   <div id="income-form-dialog" class="modal-dialog mr-0" hx-target="this">
+   </div>
+</div>
+<div class="card">
+   <div class="card-body">
+      <div class="progress-idc">
+         <div class="indeterminate"></div>
+      </div>
+      <div id="incomes-card" hx-trigger="load from:body" hx-get="{% url 'incomes-table' %}" hx-target="this">
+      </div>
+   </div>
+</div>
+{% endblock content %}
+{% block sitejs %}
+<script src="{% static 'dashboard/js/datatable-checkbox-init.js' %}"></script>
+<script src="{% static 'dashboard/js/jquery.multicheck.js' %}"></script>
+<script src="{% static 'dashboard/js/datatables.min.js' %}"></script>
+<script>
+   const add_income_modal = new bootstrap.Modal(document.getElementById("incomeFormPopup"))
+   
+   
+   htmx.on("htmx:afterSwap", (e) => {
+       // Response targeting #dialog => show the modal
+       if (e.detail.target.id == "income-form-dialog") {
+       add_income_modal.show();
+       
+       }
+        
+   })
+   
+   htmx.on("htmx:beforeSwap", (e) => {
+       // Empty response targeting #dialog => hide the modal
+   
+       if (e.detail.target.id == "income-form-dialog" && !e.detail.xhr.response) {
+       add_income_modal.hide()
+       e.detail.shouldSwap = false
+       }
+       
+   })
+   
+   htmx.on("hidden.bs.modal", () => {
+       document.getElementById("income-form-dialog").innerHTML = "";
+   })
+</script>
+{% endblock sitejs %}

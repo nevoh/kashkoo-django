@@ -1,0 +1,35 @@
+<div class="m-b-5">
+    <button class="btn btn-outline-primary border-0" hx-trigger="click"  hx-get="{% url 'incomes-table' %}" hx-target="#incomes-card" hx-swap="innerHTML" hx-indicator=".progress-idc">Incomes table</button>
+    <button class="btn btn-primary" hx-trigger="click"  hx-get="{% url 'income-chart' %}" hx-target="#incomes-card" hx-swap="innerHTML" hx-indicator=".progress-idc">Incomes chart</button>
+</div>
+<div class="card h-100">
+    <div class="card-body">
+       <div id="myPlot"></div>
+    </div>
+</div>
+<script>
+    var xArray = [];
+    var yArray = {{y_values}};
+    
+    for(i=40; i<=100; i++)
+    {
+        xArray.push(i)
+    }
+    
+    // Define Data
+    var data = [{
+        x:xArray,
+        y:yArray,
+        type: 'scatter'
+    }];
+    
+    // Define Layout
+    var layout = {
+        xaxis: { title: "Age", rangemode: "nonnegative"},
+        yaxis: { title: "Income", rangemode: "nonnegative"},  
+        title: "{{title|default:'Total Income'}}"
+    };
+    
+    // Display using Plotly
+    Plotly.newPlot("myPlot", data, layout);
+</script>
